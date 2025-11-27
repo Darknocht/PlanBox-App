@@ -1,0 +1,285 @@
+info:
+  title: PlanBox Application API
+  version: 1.0.0
+  description: An API for managing a to do List.
+tags:
+  - name: tasks
+    description: Management of every tasks in the json file
+paths:
+  /tasks:
+    get:
+      tags:
+        - tasks
+      summary: Get All tasks from the json file
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+                description: Array of every tasks from the json file
+                title: GetAllTasksFromTheJsonFileOk
+          description: Return a array of every task from the json file.
+      description: >-
+        Get all tasks.
+
+        A task has an **id**, a **title**, a **description** (optional), a
+        **status**, a **date** and a **time**.
+      operationId: getAllTasksFromTheJsonFile
+    post:
+      tags:
+        - tasks
+      summary: Add a new task in the json file
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+          description: A new task is created in the json file.
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      parameters: []
+      description: >-
+        The new task must have:
+
+
+        - a title, non empty String with max 100 characters
+
+        - a description is optional but it has max 500 characters and do not
+        contain Javascript Code with HTML tag script
+
+        - a status between **todo**, **in-progress** and **done**
+
+        - a date in format YYYY-MM-DD
+
+        - a time in format HH:MM:SS
+
+
+        The id is automatically given by the API.
+      operationId: addANewTaskInTheJsonFile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - description
+                - status
+              properties:
+                title:
+                  type: string
+                  description: |-
+                    Title of the task.
+                    This is required and max 100 characters.
+                  examples:
+                    - My new Task
+                    - My task
+                    - "Task #12"
+                status:
+                  type: string
+                  description: Status of the task between **todo**, **in-progress** and **done**.
+                  examples:
+                    - todo
+                    - in-progress
+                    - done
+                description:
+                  type: string
+                  description: |-
+                    Description of the task.
+                    This is optional and max 500 characters.
+                    The description mustn't have Javascript code.
+                  examples:
+                    - Lorem Ipsum
+                    - This is my new task.
+        required: true
+        description: A Object with a title, a description and a status.
+  /tasks/{id}:
+    patch:
+      tags:
+        - tasks
+      summary: Update the status of the task from the json file
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+          description: The task with the given id has updated.
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      description: >-
+        Update the status of the task with a given id.
+
+        It changes only the status of the task between **todo**, **in-progress**
+        and **done**.
+      operationId: updateTheStatusOfTheTaskFromTheJsonFile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+        required: true
+        description: Request the status
+    delete:
+      tags:
+        - tasks
+      summary: Delete a task from the json file
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                type: "null"
+                title: DeleteATaskFromTheJsonFileNoContent
+          description: The task has been deleted.
+        "404":
+          $ref: "#/components/responses/NotFound"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      description: Delete a task with a given Id from the json file.
+      operationId: deleteATaskFromTheJsonFile
+openapi: 3.1.0
+servers:
+  - url: http://localhost:3000
+    description: Local server
+components:
+  schemas:
+    Task:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - status
+        - date
+        - time
+      properties:
+        id:
+          type: integer
+          examples:
+            - 12
+            - 14
+          description: The id is given by th API with the Javascript-Code Date.now().
+        title:
+          type: string
+          examples:
+            - New task
+            - "task #33"
+            - What I do today ?
+          description: Title of the task with no String-empty and max 100 characters.
+        status:
+          type: string
+          examples:
+            - todo
+            - in-progress
+            - done
+          description: "Define the status of the task between: **todo**, **in-progress**
+            and **done**."
+        description:
+          type: string
+          examples:
+            - Lorem Ipsum
+            - My new Best friends are ...
+          description: The description of a task (optional, max 500 max characters and do
+            not contain Javascript-Code with script)
+        date:
+          type: string
+          format: date
+          example: '2025-11-27'
+          description: Date of the task creation, format YYYY-MM-DD.
+        time:
+          type: string
+          format: time
+          example: '14:30:25'
+          description: Time of the task creation, format HH:MM:SS.
+      description: >-
+        A task has an id given by the API, and 5 others parameters:
+
+        - title (max 100 characters and no empty String)
+
+        - description (optional, max 500 max characters and do not contain
+        Javascript-Code with script)
+
+        - status (between **todo**, **in-progress** and **done**)
+
+        - date (creation date, format YYYY-MM-DD)
+
+        - time (creation time, format HH:MM:SS)
+  responses:
+    Conflict:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+                examples:
+                  - Lorem ipsum
+      description: The request could not be completed due to a conflict with the
+        current state of the resource. Resolve the conflict and try again.
+    NotFound:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+                examples:
+                  - Lorem ipsum
+      description: The server cannot find the requested resource. The endpoint may be
+        invalid or the resource may no longer exist.
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+                examples:
+                  - Lorem ipsum
+      description: The server could not understand the request due to invalid syntax.
+        The client should modify the request and try again.
+    InternalServerErrror:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+                examples:
+                  - Lorem ipsum
+      description: The server encountered an unexpected condition that prevented it
+        from fulfilling the request. Report the issue to the support team if it
+        persists.
+  parameters:
+    id:
+      name: id
+      in: path
+      description: Path parameter to retrieve tasks by.
+      schema:
+        type: number
+      explode: false
+      style: simple
+      allowReserved: false
+      allowEmptyValue: true
+  securitySchemes: {}
