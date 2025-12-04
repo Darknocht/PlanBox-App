@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 import TaskForm from "./components/TaskForm.tsx";
 import TaskList from "./components/TaskList.tsx";
 import './App.css'
+import BottomNav from "./components/BottomNav.tsx";
 
 function App() {
     const [reload, setReload] = useState<boolean>(false);
@@ -15,6 +16,7 @@ function App() {
     <>
         <TaskForm onTaskCreated={() => setReload(!reload)} />
         <TaskList reload={reload} />
+        <BottomNav/>
     </>
   )
 }

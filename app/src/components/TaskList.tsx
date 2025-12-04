@@ -142,6 +142,19 @@ export default function TaskList({reload}: Props){
                                               mr:2}}>
                                           Delete
                                       </Button>
+                                      <Typography
+                                          variant="body1"
+                                          sx={{
+                                              color: 'text.primary',
+                                              ml:1.75,
+                                              mr: 4.75,
+                                              fontWeight: 'bold',
+                                              wordBreak: "break-word",
+                                              maxWidth: "100%"}}
+                                      >
+                                          {task.time ? task.time.format("hh:mm:A") : ""}
+                                          {task.date ? "  " + task.date.format("DD/MM/YYYY") : ""}
+                                      </Typography>
                                       <Divider component="li" />
                                   </React.Fragment>
                               }

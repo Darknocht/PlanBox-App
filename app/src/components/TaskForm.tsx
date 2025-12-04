@@ -5,6 +5,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import {createTask} from "../api.ts";
 import type {Task} from "../Task.ts";
 import DOMPurify from "dompurify";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import dayjs, { Dayjs } from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 //Interface Props for the main function
 interface Props {
@@ -16,6 +21,8 @@ export default function TaskForm({onTaskCreated}: Props){
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [status, setStatus] = useState<Task["status"]>("todo");
+    const [date, setDate] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
+    const [time, setTime] = React.useState<Dayjs | null>(dayjs('2022-04-17T15:30'));
     const [error, setError] = useState<string[]>(["",""]);
 
     //Initialisation of a pop-up TaskForm
@@ -25,23 +32,32 @@ export default function TaskForm({onTaskCreated}: Props){
      * Checking if title and description don't meet the criteria
      * @param t {string} title of the form to test
      * @param d {string} description of the form to test
+     * @param date {Dayjs | null} date of the form to test
+     * @param time {Dayjs | null} time of the form to test
      * @return {string[]} an Array of description errors (empty if there are no error)
      */
-    const checking = (t: string, d:string): string[] => {
-        let errors: string[] = ["", ""];
+    const checking = (t: string, d:string, date: Dayjs | null,
+                      time: Dayjs | null): string[] => {
+        let errors: string[] = ["", "", "", ""];
         if(!t || t.length > 100){
             errors[0] = "Mandatory title with max 100 characters";
         }
         if(d.length > 500 || /<script>/i.test(d)){
             errors[1] = "Description max 500 characters and no JS-Code"
         }
+        if (!date || !date.isValid()) {
+            errors[2] = "Invalid date";
+        }
+        if (!time || !time.isValid()) {
+            errors[3] = "Invalid time";
+        }
         return errors;
     }
 
     //Update title and description if changing in form
     useEffect(() => {
-        setError(checking(title, description));
-    }, [title, description]);
+        setError(checking(title, description, date, time));
+    }, [title, description, date, time]);
 
     /**
      * Create the task when the creating Button is clicked and close the window
@@ -50,7 +66,7 @@ export default function TaskForm({onTaskCreated}: Props){
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         //An error has been found
-        if(error[0].length > 0 || error[1].length > 0){
+        if(error[0].length > 0 || error[1].length > 0 || error[2].length > 0 || error[3].length > 0){
             return;
         }
 
@@ -59,12 +75,14 @@ export default function TaskForm({onTaskCreated}: Props){
         const sanitizedDescription = DOMPurify.sanitize(description, { ALLOWED_TAGS: [], ALLOWED_ATTR: [] });
 
         //Initialisation of the task
-        await createTask({title: sanitizedTitle, description: sanitizedDescription, status});
+        await createTask({title: sanitizedTitle, description: sanitizedDescription, status, date: date, time: time});
 
         //Reset of the inputs
         setTitle("");
         setDescription("");
         setStatus("todo");
+        setDate(null);
+        setTime(null);
         setError(["",""]);
         onTaskCreated();
 
@@ -145,6 +163,38 @@ export default function TaskForm({onTaskCreated}: Props){
                             error={Boolean(!!error && error[1].length > 0)}
                             helperText={error[1] || " "}
                         />
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                label="Date"
+                                value={date}
+                                onChange={(newValue) => setDate(newValue)}
+                                sx={{mt:2,
+                                    "& .MuiFormHelperText-root": {
+                                        minHeight: "20px",
+                                        minWidth: "200px",
+                                        whiteSpace: "normal",
+                                        wordBreak: "break-word",
+                                        overflowWrap: "anywhere",
+                                        maxWidth: "100%"
+                                    }}}
+                            />
+                        </LocalizationProvider>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <TimePicker
+                                label="Time"
+                                value={time}
+                                onChange={(newValue) => setTime(newValue)}
+                                sx={{mt:2,
+                                    "& .MuiFormHelperText-root": {
+                                        minHeight: "20px",
+                                        minWidth: "200px",
+                                        whiteSpace: "normal",
+                                        wordBreak: "break-word",
+                                        overflowWrap: "anywhere",
+                                        maxWidth: "100%"
+                                    }}}
+                            />
+                        </LocalizationProvider>
                         {/*Select button to choose a status*/}
                         <Box sx={{display: "flex", justifyContent: "space-between"}}>
                             <TextField
@@ -168,7 +218,7 @@ export default function TaskForm({onTaskCreated}: Props){
                                 type="submit"
                                 variant="contained"
                                 color="success"
-                                disabled={Boolean(error[0] || error[1])}
+                                disabled={Boolean(error[0] || error[1] || error[2] || error[3])}
                                 startIcon={<AddCircleOutlineIcon/>}
                                 sx={{
                                     mt: 2,

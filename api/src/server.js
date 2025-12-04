@@ -108,7 +108,7 @@ app.get('/tasks', (req, res) => {
 
 //POST /tasks
 app.post('/tasks', (req, res) => {
-    let {title, description="", status = "todo" } = req.body;
+    let {title, description="", status="todo", date, time } = req.body;
 
 
     //Checking arguments
@@ -138,6 +138,12 @@ app.post('/tasks', (req, res) => {
         //We can use includes because we have only 3 values
         return res.status(400).json({ error: "Invalid status" });
     }
+    if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        return res.status(400).json({ error: "Invalid date format" });
+    }
+    if (time && !/^\d{2}:\d{2}$/.test(time)) {
+        return res.status(400).json({ error: "Invalid time format" });
+    }
 
 
     //After Checking, the task will be added
@@ -148,8 +154,8 @@ app.post('/tasks', (req, res) => {
         title,
         description,
         status,
-        date: now.toISOString().split("T")[0],
-        time: now.toTimeString().split(" ")[0]
+        date: date ?? null,
+        time: time ?? null
     };
     tasks.push(newTask);
     rwDB.writeTasks(tasks);

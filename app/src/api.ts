@@ -1,5 +1,6 @@
 import axios from "axios";
 import type {Task} from "./Task";
+import dayjs from "dayjs";
 
 const API_URL =
     window.location.hostname === "localhost"
@@ -15,21 +16,42 @@ const api = axios.create({
 export async function getTasks(): Promise<Task[]> {
     //The api is located in the folder /api/
     const res = await api.get<Task[]>("tasks");
-    return res.data;
+    return res.data.map((d) => ({
+        ...d,
+        date: d.date ? dayjs(d.date) : null,
+        time: d.time ? dayjs(d.time, "HH:mm") : null,
+    })) as Task[];
 }
 
 //POST api/tasks
 export async function createTask(task: Omit<Task, "id">): Promise<Task> {
     //We don't need the id of the task, because we create automatically a new id (Omit)
-    const res = await api.post("tasks", task);
-    return res.data;
+    const payload = {
+        ...task,
+        date: task.date ? task.date.format("YYYY-MM-DD") : null,
+        time: task.time ? task.time.format("HH:mm") : null,
+    };
+
+    const res = await api.post("tasks", payload);
+
+    const d = res.data;
+    return {
+        ...d,
+        date: d.date ? dayjs(d.date) : null,
+        time: d.time ? dayjs(d.time, "HH:mm") : null,
+    } as Task;
 }
 
 //PATCH api/tasks:{id}
 export async function updateTaskStatus(id: number, status: Task["status"]): Promise<Task>{
     //We need only the status of the task
     const res = await api.patch(`tasks/${id}`, {status});
-    return res.data;
+    const d = res.data;
+    return {
+        ...d,
+        date: d.date ? dayjs(d.date) : null,
+        time: d.time ? dayjs(d.time, "HH:mm") : null,
+    } as Task;
 }
 
 //DELETE api/tasks:{id}
