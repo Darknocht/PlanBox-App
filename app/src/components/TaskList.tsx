@@ -152,7 +152,7 @@ export default function TaskList({reload}: Props){
                                               wordBreak: "break-word",
                                               maxWidth: "100%"}}
                                       >
-                                          {task.time ? task.time.format("hh:mm:A") : ""}
+                                          {task.time ? task.time.format("hh:mm A") : ""}
                                           {task.date ? "  " + task.date.format("DD/MM/YYYY") : ""}
                                       </Typography>
                                       <Divider component="li" />

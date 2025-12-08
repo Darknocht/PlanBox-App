@@ -1,11 +1,11 @@
-import {useEffect, useState} from 'react'
-import TaskForm from "./components/TaskForm.tsx";
-import TaskList from "./components/TaskList.tsx";
+import {useEffect} from 'react'
 import './App.css'
 import BottomNav from "./components/BottomNav.tsx";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Home } from "./pages/Home.tsx"
+import {About} from "./pages/About.tsx";
 
 function App() {
-    const [reload, setReload] = useState<boolean>(false);
 
     //Change the title of Web-Application
     useEffect(() => {
@@ -14,9 +14,15 @@ function App() {
 
   return (
     <>
-        <TaskForm onTaskCreated={() => setReload(!reload)} />
-        <TaskList reload={reload} />
-        <BottomNav/>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/calendar" element={<About/>} />
+                <Route path="/about" element={<About />} />
+            </Routes>
+
+            <BottomNav />
+        </BrowserRouter>
     </>
   )
 }

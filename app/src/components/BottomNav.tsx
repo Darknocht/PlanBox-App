@@ -1,39 +1,49 @@
 import * as React from 'react';
 import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
-import HomeIcon from '@mui/icons-material/List';
+import ListIcon from '@mui/icons-material/List';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function BottomNav() {
-    const [value, setValue] = React.useState(0);
+    const location = useLocation();
+    const path = location.pathname;
 
     return (
         <Paper
-            sx={{
-                position: 'fixed',
-                bottom: 0,
-                left: 0,
-                right: 0,
-            }}
+            sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}
             elevation={3}
         >
             <BottomNavigation
-                value={value}
+                value={path}
                 sx={{
-                    bgcolor: '#7fd3f9',            // bleu clair
-                    '& .MuiBottomNavigationAction-root': {
-                        color: 'text.primary',
-                    },
-                    '& .Mui-selected': {
-                        color: 'primary.dark',
-                    },
+                    bgcolor: '#7fd3f9',
+                    '& .MuiBottomNavigationAction-root': { color: 'text.primary' },
+                    '& .Mui-selected': { color: 'primary.dark' },
                 }}
-                onChange={(event, newValue) => setValue(newValue)}
                 showLabels
             >
-                <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-                <BottomNavigationAction label="Calendar" icon={<CalendarTodayIcon />} />
-                <BottomNavigationAction label="About" icon={<MoreHorizIcon />} />
+                <BottomNavigationAction
+                    label="Home"
+                    value="/"
+                    icon={<ListIcon />}
+                    component={Link}
+                    to="/"
+                />
+                <BottomNavigationAction
+                    label="Calendar"
+                    value="/calendar"
+                    icon={<CalendarTodayIcon />}
+                    component={Link}
+                    to="/calendar"
+                />
+                <BottomNavigationAction
+                    label="About"
+                    value="/about"
+                    icon={<MoreHorizIcon />}
+                    component={Link}
+                    to="/about"
+                />
             </BottomNavigation>
         </Paper>
     );

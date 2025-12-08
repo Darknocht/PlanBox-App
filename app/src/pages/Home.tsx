@@ -1,0 +1,14 @@
+import {useState} from "react";
+import TaskForm from "../components/TaskForm.tsx";
+import TaskList from "../components/TaskList.tsx";
+
+export function Home() {
+    const [reload, setReload] = useState<boolean>(false);
+
+    return (
+        <>
+            <TaskForm onTaskCreated={() => setReload(!reload)} />
+            <TaskList reload={reload} />
+        </>
+    );
+}

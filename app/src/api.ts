@@ -1,6 +1,8 @@
 import axios from "axios";
 import type {Task} from "./Task";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
 
 const API_URL =
     window.location.hostname === "localhost"
@@ -16,11 +18,11 @@ const api = axios.create({
 export async function getTasks(): Promise<Task[]> {
     //The api is located in the folder /api/
     const res = await api.get<Task[]>("tasks");
-    return res.data.map((d) => ({
+    return res.data.map(d => ({
         ...d,
-        date: d.date ? dayjs(d.date) : null,
-        time: d.time ? dayjs(d.time, "HH:mm") : null,
-    })) as Task[];
+        date: d.date ? dayjs(d.date, "YYYY-MM-DD") : null,
+        time: d.time ? dayjs(d.time, ["HH:mm", "HH:mm:ss"]) : null
+    }));
 }
 
 //POST api/tasks
