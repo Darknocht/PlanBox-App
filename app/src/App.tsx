@@ -3,7 +3,8 @@ import './App.css'
 import BottomNav from "./components/BottomNav.tsx";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Home } from "./pages/Home.tsx"
-import {About} from "./pages/About.tsx";
+import { About } from "./pages/About.tsx";
+import { Calendar } from "./pages/Calendar.tsx"
 
 function App() {
 
@@ -17,7 +18,7 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/calendar" element={<About/>} />
+                <Route path="/calendar" element={<Calendar />} />
                 <Route path="/about" element={<About />} />
             </Routes>
 
