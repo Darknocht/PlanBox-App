@@ -1,1 +1,117 @@
-Test
+# PlanBox App
+
+## Back-End
+
+### Structure
+The API uses Node.js and Express.js as a REST API.
+The back-end is located in the `./api/` directory.
+
+- `./src/server.js` contains the various API routes (GET, POST, PATCH, and DELETE)
+- `./src/index.js` starts the server with `app.listen()`
+- `./src/readingWritingDatabase.js` manages the JSON files
+- `./src/swagger.yaml` contains the API documentation ([see API Documentation](#Back-End-Deployment))
+- `./node_modules` contains all necessary modules
+
+### Installation
+To install or update the packages: `npm install`.
+
+### Developer Mode
+To start in developer mode:
+cd api
+npm start
+
+The API runs on `localhost:3000`.
+> Exception: The Render server has its own link ([see Back-End Deployment](#Back-End-Deployment)).
+
+### Features
+Task management is handled via `/tasks`.
+
+#### Task
+A task is an object with:
+
+- A mandatory title (`title`) with a maximum of 100 characters.
+- An optional description (`description`) with a maximum of 500 characters, without JavaScript code.
+- A status of either `To Do` (todo), `In Progress` (in-progress), or `Done` (done).
+
+#### Functionality
+- `GET /tasks`: returns the list of tasks
+- `POST /tasks`: creates a new task
+- `PATCH /tasks:id`: updates the status of the task with the given id
+- `DELETE /tasks:id`: deletes a task with the given id
+
+### Database (JSON)
+I chose JSON as the storage format because it is easier to handle.
+For a small project with only one table and four data types (ID, Title, Description, Status), JSON is completely sufficient.
+
+SQL would also be possible, but it would require installing an SQL server and using a suitable JS library to read/write the data.
+
+There are two files for storing tasks:
+
+- `tasks.json` in `./api/src/` manages the tasks for the web application
+- `tasks.test.json` in `./api/test/` serves to test the files `server.js` and `readingWritingDatabase.js` in `./api/src/`
+
+### Testing
+To run the tests:
+cd api
+npm run test
+
+The coverage report is located in the `./coverage/` directory.
+
+The tests are located in the `./api/test` directory:
+
+- `./test/readingWritingDatabase.test.js` tests the various functions for reading and writing JSON files
+- `./test/server.test.js` tests the various API routes (GET, POST, PATCH, and DELETE)
+
+GitHub Actions (Workflows) automatically checks if there are issues with the back-end deployment ([see Workflows](#Workflows)).
+
+---
+
+## Front-End
+
+### Structure
+The application uses the React framework with TypeScript and the Material UI library.
+The front-end is located in the `./app/` directory:
+
+- `./src/api.ts` fetches all data from the back-end
+- `./src/App.tsx` renders the web application
+- `./src/components/TaskList.tsx` displays the list of various tasks (data from `./api/src/tasks.json`)
+- `./src/components/TaskForm.tsx` displays the form for creating a task
+- `./src/components/TaskCard.tsx` displays the different tasks
+- `./src/components/TextCard.tsx` displays the text on about page
+- `./src/components/BottomNav.tsx` displays the Bottom Navigation
+- `./src/pages/About.tsx` displays the About page
+- `./src/pages/Calendar.tsx` displays the Calendar page
+- `./src/pages/Home.tsx` displays the Home page
+- `./node_modules` contains all necessary modules
+- `./public` contains the logos of the web application
+
+### Installation
+To install or update the packages:
+cd app
+npm install
+
+### Developer Mode
+To start in developer mode:
+cd app
+npm run dev
+
+The web application runs on `localhost:5173`.
+> Exception: The Render server has its own link ([see Front-End Deployment](#Front-End-Deployment)).
+
+> ATTENTION: The back-end server must be started on `localhost:3000`. Otherwise, it will automatically start the Render server. [see Render Server](#Back-End-Deployment).
+
+### Build
+To create a build:
+cd app
+npm run build
+
+## Workflows
+
+The workflows automatically check if the program is working correctly.
+All workflows are located in `./.github/workflows/ci.yaml/`.
+
+There are 3 workflows:
+- Back-End Deployment Workflow
+- Front-End Deployment Workflow
+
+There is also a workflow with Render, but GitHub does not display it.
