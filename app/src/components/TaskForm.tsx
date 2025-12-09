@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {TextField, Button, MenuItem, Paper, Dialog, DialogTitle, DialogContent, Box, Typography} from "@mui/material";
+import {TextField, Button, MenuItem, Dialog, DialogTitle, DialogContent, Box} from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import {createTask} from "../api.ts";
@@ -30,11 +30,6 @@ export default function TaskForm({onTaskCreated}: Props){
 
     /**
      * Checking if title and description don't meet the criteria
-     * @param t {string} title of the form to test
-     * @param d {string} description of the form to test
-     * @param date {Dayjs | null} date of the form to test
-     * @param time {Dayjs | null} time of the form to test
-     * @return {string[]} an Array of description errors (empty if there are no error)
      */
     const checking = (t: string, d:string, date: Dayjs | null,
                       time: Dayjs | null): string[] => {
@@ -61,7 +56,6 @@ export default function TaskForm({onTaskCreated}: Props){
 
     /**
      * Create the task when the creating Button is clicked and close the window
-     * @param e event when the creating Button is clicked
      */
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -91,18 +85,26 @@ export default function TaskForm({onTaskCreated}: Props){
     };
 
     //Representation of a TaskForm to create a new task
+    // MODIFICATION 1 : Suppression du <Paper> englobant, remplacé par un Fragment <>
     return (
-        <Paper sx={{p:2, mb:2, borderRadius: 2}}>
-            {/*Title and create button*/}
-            <Typography variant="h3" color="black" sx={{mb: 2}}>PlanBox App</Typography>
+        <>
             {/*When the create button is clicked, a pop-up shows up*/}
             <Button
                 variant="contained"
                 color="success"
                 onClick={() => setOpen(true)}
                 startIcon={<AddCircleOutlineIcon/>}
+                sx={{
+                    position: 'fixed',
+                    bottom: 80,
+                    right: 16,
+                    zIndex: 1000,
+                    textTransform: 'none',
+                    borderRadius: 8,
+                    boxShadow: 3
+                }}
             >
-                create a task
+                Task
             </Button>
 
             {/*Window of the pop-up */}
@@ -118,7 +120,9 @@ export default function TaskForm({onTaskCreated}: Props){
                         color="error"
                         onClick={() => setOpen(false)}
                         startIcon={<CloseIcon/>}
-                        sx={{float: "right"}}>
+                        sx={{float: "right", textTransform: 'none', borderRadius: 8,
+                            boxShadow: 3}}
+                    >
                         Close
                     </Button>
                 </DialogTitle>
@@ -222,15 +226,18 @@ export default function TaskForm({onTaskCreated}: Props){
                                 startIcon={<AddCircleOutlineIcon/>}
                                 sx={{
                                     mt: 2,
-                                    ml: 2
+                                    ml: 2,
+                                    textTransform: 'none',
+                                    borderRadius: 8,
+                                    boxShadow: 3
                                 }}
                             >
-                                create
+                                Create
                             </Button>
                         </Box>
                     </form>
                 </DialogContent>
             </Dialog>
-        </Paper>
+        </>
     );
 }

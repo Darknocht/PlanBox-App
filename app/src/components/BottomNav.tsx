@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
 import ListIcon from '@mui/icons-material/List';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';

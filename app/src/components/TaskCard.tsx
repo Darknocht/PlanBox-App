@@ -37,12 +37,12 @@ export const TaskCard: React.FC<Props> = ({ task, onTaskDeleted, onTaskUpdated }
     };
 
     return (
-        <ListItem alignItems="flex-start" sx={{ px: 0 }}>
+        <ListItem alignItems="flex-start" sx={{ px: 0, mb: 1 }}>
             <ListItemText
-                style={{ backgroundColor: 'white', borderRadius: 10 }}
+                style={{ backgroundColor: 'white', borderRadius: 10, border: '1px solid #D9D9D9'}}
                 secondary={
                     <>
-                        <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'flex-start'}}>
                             <Box
                                 sx={{
                                     width: 20,
@@ -93,7 +93,7 @@ export const TaskCard: React.FC<Props> = ({ task, onTaskDeleted, onTaskUpdated }
                             onChange={e =>
                                 handleStatusChange(e.target.value as Task['status'])
                             }
-                            sx={{ mt: 2, ml: 2, mb: 1 }}
+                            sx={{ mt: 2, ml: 2, mb: 1, minWidth: 125 }}
                         >
                             <MenuItem value="todo">To do</MenuItem>
                             <MenuItem value="in-progress">In progress</MenuItem>
@@ -105,7 +105,9 @@ export const TaskCard: React.FC<Props> = ({ task, onTaskDeleted, onTaskUpdated }
                             color="error"
                             variant="contained"
                             startIcon={<DeleteIcon />}
-                            sx={{ mt: 2, float: 'right', mr: 2 }}
+                            sx={{ mt: 2, float: 'right', mr: 2, textTransform: 'none',
+                                borderRadius: 8,
+                                boxShadow: 3 }}
                         >
                             Delete
                         </Button>
