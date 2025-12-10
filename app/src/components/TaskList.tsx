@@ -27,6 +27,7 @@ export default function TaskList({ reload }: Props) {
         <List
             sx={{
                 width: "100%",
+                minWidth: '80vw',
                 maxWidth: 360,
                 mt: 0,
                 mb: 0,

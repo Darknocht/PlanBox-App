@@ -47,38 +47,36 @@ export function Calendar() {
     };
 
     return (
-        // 1. MODIFICATION : J'ai retiré le 'p: 2' ici pour que le header touche les bords
         <Box sx={{ pb: 10 }}>
 
-            {/* HEADER BLEU */}
             <Box sx={{
-                bgcolor: '#4fc3f7',
+                bgcolor: '#7fd3f9',
                 color: 'white',
                 pt: 1,
-                width: '100%' // S'assure de prendre toute la largeur
+                width: '100%'
             }}>
                 <Tabs
                     value={tab}
                     onChange={handleTabChange}
-                    // 2. MODIFICATION : 'fullWidth' étend les onglets sur toute la largeur
                     variant="fullWidth"
                     textColor="inherit"
                     indicatorColor="primary"
                     sx={{
+                        minWidth: '100vw',
                         minHeight: 48,
                         '& .MuiTab-root': {
-                            color: 'rgba(0, 0, 0, 0.5)',
+                            color: 'rgba(0, 0, 0, 1.0)',
                             fontWeight: 'bold',
                             textTransform: 'none',
                             fontSize: '1rem',
                         },
                         '& .Mui-selected': {
-                            color: '#ffffff !important',
+                            color: 'rgba(54, 34, 235, 0.63) !important',
                         },
                         '& .MuiTabs-indicator': {
-                            backgroundColor: '#ffffff',
+                            backgroundColor: 'rgba(54, 34, 235, 0.63)',
                             height: 4,
-                            borderRadius: '2px 2px 0 0' // Petit arrondi sur l'indicateur
+                            borderRadius: '2px 2px 0 0'
                         },
                     }}
                 >
@@ -88,10 +86,9 @@ export function Calendar() {
                 </Tabs>
             </Box>
 
-            {/* CONTENU (Avec Padding ajouté ici du coup) */}
-            <Box sx={{ px: 2 }}>
+            <Box sx={{ px: 2,
+                minWidth: 200 }}>
 
-                {/* Navigation Date */}
                 <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
                     <Box sx={{ flex: 1, textAlign: 'center', color: 'black' }}>
                         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
@@ -102,8 +99,10 @@ export function Calendar() {
                     <IconButton onClick={handleNext}><ArrowForwardIosIcon /></IconButton>
                 </Box>
 
-                {/* Liste des tâches */}
-                <Box sx={{ mt: 2 }}>
+                <Box sx={{ mt: 2,
+                    minHeight: 225,
+                    minWidth: '80vw',
+                    listStyleType: 'none'}}>
                     {filteredTasks.map(task => (
                         <TaskCard
                             key={task.id}

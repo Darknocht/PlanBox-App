@@ -17,7 +17,7 @@ export default function BottomNav() {
                 value={path}
                 sx={{
                     bgcolor: '#7fd3f9',
-                    '& .MuiBottomNavigationAction-root': { color: 'text.primary' },
+                    '& .MuiBottomNavigationAction-root': { color: '#433f58' },
                     '& .Mui-selected': { color: 'primary.dark' },
                 }}
                 showLabels
