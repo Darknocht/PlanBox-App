@@ -1,6 +1,7 @@
 import {useState} from "react";
 import TaskForm from "../components/TaskForm.tsx";
 import TaskList from "../components/TaskList.tsx";
+import {WelcomeScreen} from "../components/WelcomeScreen.tsx";
 
 export function Home() {
     const [reload, setReload] = useState<boolean>(false);
@@ -9,6 +10,7 @@ export function Home() {
         <>
             <TaskForm onTaskCreated={() => setReload(!reload)} />
             <TaskList reload={reload} />
+            <WelcomeScreen/>
         </>
     );
 }
