@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import './App.css';
 import BottomNav from "./components/BottomNav.tsx";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Home } from "./pages/Home.tsx";
+import { List } from "./pages/List.tsx";
 import { About } from "./pages/About.tsx";
 import { Calendar } from "./pages/Calendar.tsx";
 import {Box} from "@mui/material";
@@ -25,7 +25,7 @@ function App() {
             />
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<List />} />
                     <Route path="/calendar" element={<Calendar />} />
                     <Route path="/about" element={<About />} />
                 </Routes>

@@ -23,7 +23,7 @@ export default function BottomNav() {
                 showLabels
             >
                 <BottomNavigationAction
-                    label="Home"
+                    label="List"
                     value="/"
                     icon={<ListIcon />}
                     component={Link}

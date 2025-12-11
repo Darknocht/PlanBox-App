@@ -21,8 +21,8 @@ export default function TaskForm({onTaskCreated}: Props){
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [status, setStatus] = useState<Task["status"]>("todo");
-    const [date, setDate] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
-    const [time, setTime] = React.useState<Dayjs | null>(dayjs('2022-04-17T15:30'));
+    const [date, setDate] = React.useState<Dayjs | null>(dayjs());
+    const [time, setTime] = React.useState<Dayjs | null>(dayjs());
     const [error, setError] = useState<string[]>(["",""]);
 
     //Initialisation of a pop-up TaskForm
