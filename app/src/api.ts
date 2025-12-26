@@ -3,6 +3,7 @@ import type {Task} from "./Task";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
+//ngrok http 3000 --url leary-tanisha-preeffectually.ngrok-free.dev to execute nrgok command
 
 const API_URL =
     window.location.hostname === "localhost"

@@ -3,7 +3,7 @@
     "id": 1765134313361,
     "title": "dd",
     "description": "",
-    "status": "todo",
+    "status": "in-progress",
     "date": "2022-04-17",
     "time": "05:40"
   },
@@ -19,7 +19,7 @@
     "id": 1765283062587,
     "title": "fdff",
     "description": "f",
-    "status": "in-progress",
+    "status": "todo",
     "date": "2025-12-09",
     "time": "15:30"
   },
@@ -51,7 +51,7 @@
     "id": 1765451622035,
     "title": "new test",
     "description": "",
-    "status": "in-progress",
+    "status": "done",
     "date": "2025-12-11",
     "time": "12:05"
   }

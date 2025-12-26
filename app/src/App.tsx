@@ -6,6 +6,11 @@ import { List } from "./pages/List.tsx";
 import { About } from "./pages/About.tsx";
 import { Calendar } from "./pages/Calendar.tsx";
 import {Box} from "@mui/material";
+import Clarity from '@microsoft/clarity';
+
+const projectId = "urha54l92k"
+
+Clarity.init(projectId);
 
 function App() {
     useEffect(() => {
