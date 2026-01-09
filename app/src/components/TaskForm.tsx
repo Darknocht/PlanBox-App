@@ -24,6 +24,8 @@ export default function TaskForm({onTaskCreated}: Props){
     const [date, setDate] = React.useState<Dayjs | null>(dayjs());
     const [time, setTime] = React.useState<Dayjs | null>(dayjs());
     const [error, setError] = useState<string[]>(["",""]);
+    const [openDate, setOpenDate] = useState(false);
+    const [openTime, setOpenTime] = useState(false);
 
     //Initialisation of a pop-up TaskForm
     const [open, setOpen] = useState<boolean>(false);
@@ -134,6 +136,8 @@ export default function TaskForm({onTaskCreated}: Props){
                             fullWidth={true}
                             label="Title"
                             value={title}
+                            multiline={true}
+                            rows={1.5}
                             onChange={(e) => setTitle(e.target.value)}
                             error={Boolean(!!error && error[0].length > 0)}
                             helperText={error[0] || " "}
@@ -171,32 +175,58 @@ export default function TaskForm({onTaskCreated}: Props){
                             <DatePicker
                                 label="Date"
                                 value={date}
+                                open={openDate}
+                                onOpen={() => setOpenDate(true)}
+                                onClose={() => setOpenDate(false)}
                                 onChange={(newValue) => setDate(newValue)}
-                                sx={{mt:2,
-                                    "& .MuiFormHelperText-root": {
-                                        minHeight: "20px",
-                                        minWidth: "200px",
-                                        whiteSpace: "normal",
-                                        wordBreak: "break-word",
-                                        overflowWrap: "anywhere",
-                                        maxWidth: "100%"
-                                    }}}
+                                slotProps={{
+                                    textField: {
+                                        onClick: () => setOpenDate(true),
+                                        inputProps: { readOnly: true },
+                                        sx: {
+                                            mt: 2,
+                                            cursor: 'pointer',
+                                            "& .MuiInputBase-input": { cursor: 'pointer' },
+                                            "& .MuiFormHelperText-root": {
+                                                minHeight: "20px",
+                                                minWidth: "200px",
+                                                whiteSpace: "normal",
+                                                wordBreak: "break-word",
+                                                overflowWrap: "anywhere",
+                                                maxWidth: "100%"
+                                            }
+                                        }
+                                    }
+                                }}
                             />
                         </LocalizationProvider>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <TimePicker
                                 label="Time"
                                 value={time}
-                                onChange={(newValue) => setTime(newValue)}
-                                sx={{mt:2,
-                                    "& .MuiFormHelperText-root": {
-                                        minHeight: "20px",
-                                        minWidth: "200px",
-                                        whiteSpace: "normal",
-                                        wordBreak: "break-word",
-                                        overflowWrap: "anywhere",
-                                        maxWidth: "100%"
-                                    }}}
+                                open={openTime}
+                                onOpen={() => setOpenTime(true)}
+                                onClose={() => setOpenTime(false)}
+                                onChange={(newValue) => setDate(newValue)}
+                                slotProps={{
+                                    textField: {
+                                        onClick: () => setOpenTime(true),
+                                        inputProps: { readOnly: true },
+                                        sx: {
+                                            mt: 2,
+                                            cursor: 'pointer',
+                                            "& .MuiInputBase-input": { cursor: 'pointer' },
+                                            "& .MuiFormHelperText-root": {
+                                                minHeight: "20px",
+                                                minWidth: "200px",
+                                                whiteSpace: "normal",
+                                                wordBreak: "break-word",
+                                                overflowWrap: "anywhere",
+                                                maxWidth: "100%"
+                                            }
+                                        }
+                                    }
+                                }}
                             />
                         </LocalizationProvider>
                         {/*Select button to choose a status*/}
