@@ -207,7 +207,7 @@ export default function TaskForm({onTaskCreated}: Props){
                                 open={openTime}
                                 onOpen={() => setOpenTime(true)}
                                 onClose={() => setOpenTime(false)}
-                                onChange={(newValue) => setDate(newValue)}
+                                onChange={(newValue) => setTime(newValue)}
                                 slotProps={{
                                     textField: {
                                         onClick: () => setOpenTime(true),
@@ -216,14 +216,6 @@ export default function TaskForm({onTaskCreated}: Props){
                                             mt: 2,
                                             cursor: 'pointer',
                                             "& .MuiInputBase-input": { cursor: 'pointer' },
-                                            "& .MuiFormHelperText-root": {
-                                                minHeight: "20px",
-                                                minWidth: "200px",
-                                                whiteSpace: "normal",
-                                                wordBreak: "break-word",
-                                                overflowWrap: "anywhere",
-                                                maxWidth: "100%"
-                                            }
                                         }
                                     }
                                 }}
